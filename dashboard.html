@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TowerClub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #39D2C0;
+            --text-color: #15161E;
+            --secondary-text: #606A85;
+            --border-color: #E5E7EB;
+            --background-color: #FFFFFF;
+            --error-color: #FF4D4F;
+            --success-color: #52C41A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        /* Navigation Bar */
+        .main-nav {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-brand img {
+            height: 40px;
+            width: auto;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 8px 15px;
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .main-content {
+            padding-top: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .dashboard-header p {
+            font-size: 1rem;
+            color: var(--secondary-text);
+        }
+
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .dashboard-card .icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        .dashboard-card h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .dashboard-card p {
+            font-size: 1rem;
+            color: var(--secondary-text);
+        }
+
+        /* Recent Activity */
+        .dashboard-section {
+            margin-top: 40px;
+        }
+
+        .dashboard-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        .transactions-list {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-details span {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .transaction-details small {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+        }
+
+        .transaction-amount {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .transaction-amount.positive {
+            color: var(--success-color);
+        }
+
+        .transaction-amount.negative {
+            color: var(--error-color);
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 60px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-brand {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .brand-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand .logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .footer-brand .brand-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .brand-description {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: var(--secondary-text);
+        }
+
+        .footer-quick-links {
+            flex: 2;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-links-section {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-column {
+            min-width: 150px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 5px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #9ca3af;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .footer-social a {
+            color: #9ca3af;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            transition: color 0.2s;
+        }
+
+        .footer-social a:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-top {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-quick-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-content">
+            <!-- Brand Section -->
+            <a href="/pages/mainpage.html" class="nav-brand">
+                <img src="../assets/images/towerclub_logo.png" alt="TowerClub Logo">
+                <span class="brand-name">TowerClub</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="nav-links">
+                <a href="/pages/dashboard.html" class="nav-link">Dashboard</a>
+                <a href="/pages/wallet.html" class="nav-link">Wallet</a>
+                <a href="/pages/add-transaction.html" class="nav-link">Transfer</a>
+                <a href="/pages/activities.html" class="nav-link">Activities</a>
+                <a href="/pages/settings.html" class="nav-link">Settings</a>
+            </div>
+
+            <!-- Navigation Actions -->
+            <div class="nav-actions">
+                <a href="/pages/profile.html" class="btn btn-outline">Profile</a>
+                <a href="/pages/logout.html" class="btn btn-outline">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="dashboard-header">
+            <h1>Welcome Back, User!</h1>
+            <p>Here's an overview of your account.</p>
+        </div>
+
+        <div class="dashboard-cards">
+            <div class="dashboard-card">
+                <span class="material-icons icon">account_balance_wallet</span>
+                <div>
+                    <h2>Available Balance</h2>
+                    <p id="availableBalance">$10,000.00</p>
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <span class="material-icons icon">arrow_downward</span>
+                <div>
+                    <h2>Money In</h2>
+                    <p id="moneyIn">$5,000.00</p>
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <span class="material-icons icon">arrow_upward</span>
+                <div>
+                    <h2>Money Out</h2>
+                    <p id="moneyOut">$2,000.00</p>
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <span class="material-icons icon">savings</span>
+                <div>
+                    <h2>Savings Rate</h2>
+                    <p id="savingsRate">20%</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <h2>Recent Activity</h2>
+            <div class="transactions-list" id="transactionsList">
+                <!-- Transactions will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-top">
+                <!-- Brand Section -->
+                <div class="footer-brand">
+                    <div class="brand-wrapper">
+                        <img src="../assets/images/towerclub_logo.png" alt="TowerClub Logo" class="logo">
+                        <span class="brand-name">TowerClub</span>
+                    </div>
+                    <p class="brand-description">Smart financial management for a better future. Join thousands of users who are taking control of their finances with TowerClub.</p>
+                </div>
+
+                <!-- Quick Links Section -->
+                <div class="footer-quick-links">
+                    <div class="footer-links-section">
+                        <div class="footer-column">
+                            <h4>Company</h4>
+                            <ul class="footer-links">
+                                <li><a href="/pages/about.html">About Us</a></li>
+                                <li><a href="/pages/careers.html">Careers</a></li>
+                                <li><a href="/pages/press.html">Press</a></li>
+                                <li><a href="/pages/news.html">News</a></li>
+                                <li><a href="/pages/contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Products</h4>
+                            <ul class="footer-links">
+                                <li><a href="/pages/features.html">Features</a></li>
+                                <li><a href="/pages/pricing.html">Pricing</a></li>
+                                <li><a href="/pages/enterprise.html">Enterprise</a></li>
+                                <li><a href="/pages/partners.html">Partners</a></li>
+                                <li><a href="/pages/integrations.html">Integrations</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Resources</h4>
+                            <ul class="footer-links">
+                                <li><a href="/pages/blog.html">Blog</a></li>
+                                <li><a href="/pages/help.html">Help Center</a></li>
+                                <li><a href="/pages/guides.html">Guides</a></li>
+                                <li><a href="/pages/webinars.html">Webinars</a></li>
+                                <li><a href="/pages/api-docs.html">API Documentation</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Legal</h4>
+                            <ul class="footer-links">
+                                <li><a href="/pages/privacy.html">Privacy Policy</a></li>
+                                <li><a href="/pages/terms.html">Terms of Service</a></li>
+                                <li><a href="/pages/security.html">Security</a></li>
+                                <li><a href="/pages/compliance.html">Compliance</a></li>
+                                <li><a href="/pages/accessibility.html">Accessibility</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom Section -->
+            <div class="footer-bottom">
+                <div class="footer-social">
+                    <a href="https://facebook.com/towerclub" target="_blank" rel="noopener" aria-label="Facebook">
+                        <span class="material-icons">facebook</span>
+                    </a>
+                    <a href="https://twitter.com/towerclub" target="_blank" rel="noopener" aria-label="Twitter">
+                        <span class="material-icons">twitter</span>
+                    </a>
+                    <a href="https://linkedin.com/company/towerclub" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <span class="material-icons">linkedin</span>
+                    </a>
+                </div>
+                <p>© 2025 TowerClub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Example JavaScript to dynamically add transactions
+        const transactions = [
+            { title: "Payment to John Doe", date: "May 1, 2025", amount: -50 },
+            { title: "Salary Credit", date: "April 30, 2025", amount: 5000 },
+            { title: "Grocery Shopping", date: "April 29, 2025", amount: -200 },
+        ];
+
+        const transactionsList = document.getElementById("transactionsList");
+
+        transactions.forEach(transaction => {
+            const transactionItem = document.createElement("div");
+            transactionItem.classList.add("transaction-item");
+
+            transactionItem.innerHTML = `
+                <div class="transaction-details">
+                    <span>${transaction.title}</span>
+                    <small>${transaction.date}</small>
+                </div>
+                <span class="transaction-amount ${transaction.amount > 0 ? 'positive' : 'negative'}">
+                    ${transaction.amount > 0 ? '+' : ''}$${transaction.amount.toFixed(2)}
+                </span>
+            `;
+
+            transactionsList.appendChild(transactionItem);
+        });
+    </script>
+</body>
+</html>
+``` 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Title</title>
+    <base href="https://www.towerclubapp.com/">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <!-- Content -->
+
+    <a href="/about">About Us</a>
+    <img src="/images/logo.png" alt="Logo">
+    <form action="https://www.towerclubapp.com/submit" method="POST">
+        <input type="text" name="name" placeholder="Your Name">
+        <button type="submit">Submit</button>
+    </form>
+    <script src="/scripts/app.js"></script>
+</body>
+</html>
+
+server {
+    server_name www.towerclubapp.com;
+    root /path/to/your/project;
+    index index.html;
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Transaction - TowerClub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/transactions.css">
+    <style>
+        .main-nav {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-brand img {
+            height: 40px;
+            width: auto;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4f46e5;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #4f46e5;
+            transform: scale(1.05);
+        }
+
+        .nav-actions .btn {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 5px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #4f46e5;
+            color: #4f46e5;
+        }
+
+        .btn-outline:hover {
+            background: #4f46e5;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        .content-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-top: 80px; /* Add padding to prevent overlap with the fixed navigation bar */
+        }
+
+        .btn-icon {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+        }
+
+        .btn-icon:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-icon .material-icons {
+            font-size: 24px;
+            color: #4f46e5; /* Primary color for consistency */
+        }
+
+        .header-left h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+            color: #1f2937;
+        }
+
+        .header-left p {
+            font-size: 1rem;
+            color: #6b7280;
+            margin: 5px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav">
+        <div class="nav-content">
+            <!-- Brand Section -->
+            <a href="/pages/mainpage.html" class="nav-brand">
+                <img src="/assets/images/towerclub_logo.png" alt="TowerClub Logo">
+                <span class="brand-name">TowerClub</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="nav-links">
+                <a href="/pages/dashboard.html" class="nav-link">Dashboard</a>
+                <a href="/pages/wallet.html" class="nav-link">Wallet</a>
+                <a href="/pages/add-transaction.html" class="nav-link">Transfer</a>
+                <a href="/pages/activities.html" class="nav-link">Activities</a>
+                <a href="/pages/settings.html" class="nav-link">Settings</a>
+            </div>
+
+            <!-- Logout Button -->
+            <div class="nav-actions">
+                <a href="/pages/logout.html" class="btn btn-outline">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <main class="main-content">
+            <div class="content-header">
+                <div class="header-left">
+                    <!-- Back Button -->
+                    <button onclick="history.back()" class="btn btn-icon">
+                        <span class="material-icons">arrow_back</span>
+                    </button>
+                    <div>
+                        <h1>Add Transaction</h1>
+                        <p>Enter the details of your transaction</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card transaction-form">
+                <form id="addTransactionForm">
+                    <div class="form-group">
+                        <label for="amount" class="form-label">Amount</label>
+                        <div class="input-group">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" id="amount" class="form-input" placeholder="0.00" required step="0.01" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Transaction Type</label>
+                        <div class="transaction-type-toggle">
+                            <button type="button" class="type-btn active" data-type="expense">
+                                <span class="material-icons">arrow_upward</span>
+                                Expense
+                            </button>
+                            <button type="button" class="type-btn" data-type="income">
+                                <span class="material-icons">arrow_downward</span>
+                                Income
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category" class="form-label">Category</label>
+                        <select id="category" class="form-input" required>
+                            <option value="">Select a category</option>
+                            <option value="food">Food & Drinks</option>
+                            <option value="transport">Transportation</option>
+                            <option value="shopping">Shopping</option>
+                            <option value="bills">Bills & Utilities</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="health">Health</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" id="date" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea id="description" class="form-input" rows="3" placeholder="Enter transaction description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="attachment" class="form-label">Attachment</label>
+                        <div class="file-upload">
+                            <input type="file" id="attachment" accept="image/*">
+                            <label for="attachment" class="file-upload-btn">
+                                <span class="material-icons">attach_file</span>
+                                Choose File
+                            </label>
+                            <span class="file-name">No file chosen</span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="history.back()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Transaction</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-top">
+                <!-- Brand Section -->
+                <div class="footer-brand">
+                    <div class="brand-wrapper">
+                        <img src="/assets/images/towerclub_logo.png" alt="TowerClub Logo" class="logo">
+                        <span class="brand-name">TowerClub</span>
+                    </div>
+                    <p class="brand-description">Smart financial management for a better future. Join thousands of users who are taking control of their finances with TowerClub.</p>
+                </div>
+
+                <!-- Quick Links Section -->
+                <div class="footer-quick-links">
+                    <div class="footer-links-section">
+                        <div class="footer-column">
+                            <h4>Company</h4>
+                            <ul class="footer-links">
+                                <li><a href="/about">About Us</a></li>
+                                <li><a href="/careers">Careers</a></li>
+                                <li><a href="/press">Press</a></li>
+                                <li><a href="/news">News</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Products</h4>
+                            <ul class="footer-links">
+                                <li><a href="/features">Features</a></li>
+                                <li><a href="/pricing">Pricing</a></li>
+                                <li><a href="/enterprise">Enterprise</a></li>
+                                <li><a href="/partners">Partners</a></li>
+                                <li><a href="/integrations">Integrations</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Resources</h4>
+                            <ul class="footer-links">
+                                <li><a href="/blog">Blog</a></li>
+                                <li><a href="/help">Help Center</a></li>
+                                <li><a href="/guides">Guides</a></li>
+                                <li><a href="/webinars">Webinars</a></li>
+                                <li><a href="/api-docs">API Documentation</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Legal</h4>
+                            <ul class="footer-links">
+                                <li><a href="/privacy">Privacy Policy</a></li>
+                                <li><a href="/terms">Terms of Service</a></li>
+                                <li><a href="/security">Security</a></li>
+                                <li><a href="/compliance">Compliance</a></li>
+                                <li><a href="/accessibility">Accessibility</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer Bottom Section -->
+            <div class="footer-bottom">
+                <div class="footer-social">
+                    <a href="https://facebook.com/towerclub" target="_blank" rel="noopener" aria-label="Facebook">
+                        <span class="material-icons">facebook</span>
+                    </a>
+                    <a href="https://twitter.com/towerclub" target="_blank" rel="noopener" aria-label="Twitter">
+                        <span class="material-icons">twitter</span>
+                    </a>
+                    <a href="https://linkedin.com/company/towerclub" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <span class="material-icons">linkedin</span>
+                    </a>
+                </div>
+                <p>© 2025 TowerClub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="/scripts/transactions/add-transaction.js"></script>
+</body>
+</html>

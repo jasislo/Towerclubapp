@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Analytics - TowerClub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/analytics.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Updated Navigation Bar */
+        .main-nav {
+            background: linear-gradient(90deg, #22c55e, #a855f7); /* Green to Fuchsia gradient */
+            padding: 15px 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        body {
+            padding-top: 80px; /* Add padding to prevent content from hiding behind fixed nav */
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-left: -20px; /* Move logo closer to the left */
+        }
+
+        .nav-brand img {
+            height: 40px;
+            width: auto;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff; /* White text for branding */
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: #ffffff; /* White text for better contrast */
+            font-weight: 500;
+            font-size: 1rem;
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        .nav-link:hover {
+            background: #ffffff; /* White background on hover */
+            color: #22c55e; /* Green text on hover */
+            border-color: #ffffff; /* White border on hover */
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-actions input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid #94a3b8;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .nav-actions input[type="text"]:focus {
+            border-color: #22c55e; /* Green border on focus */
+        }
+
+        .nav-actions .material-icons {
+            color: #ffffff; /* White icons */
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-actions .material-icons:hover {
+            color: #a855f7; /* Fuchsia on hover */
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            text-align: center;
+            display: inline-block;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #ffffff;
+            color: #22c55e; /* Green text on hover */
+        }
+
+        .main-footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .brand-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .brand-wrapper img {
+            height: 40px;
+            width: auto;
+        }
+
+        .brand-description {
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        .footer-links-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .footer-column h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-social a {
+            color: #9ca3af;
+            transition: color 0.2s;
+        }
+
+        .footer-social a:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .footer-top {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .nav-actions {
+                margin-top: 10px;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-links-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-content">
+            <a href="/" class="nav-brand">
+                <img src="/assets/images/towerclub_logo.png" alt="TowerClub Logo">
+                <span class="brand-name">TowerClub</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="/dashboard.html" class="nav-link">Dashboard</a>
+                <a href="/wallet.html" class="nav-link">Wallet</a>
+                <a href="/add-transaction.html" class="nav-link">Transfer</a>
+                <a href="/activities.html" class="nav-link">Activities</a>
+                <a href="/settings.html" class="nav-link">Settings</a>
+            </div>
+
+            <div class="nav-actions">
+                <input type="text" placeholder="Search...">
+                <span class="material-icons">search</span>
+                <span class="material-icons">notifications</span>
+                <a href="/profile.html" class="btn btn-outline">Profile</a>
+                <a href="/logout.html" class="btn btn-outline">Log out</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <main class="main-content">
+            <div class="analytics-header">
+                <div class="header-left">
+                    <h1>Financial Analytics</h1>
+                    <p>Track your financial health and insights</p>
+                </div>
+                <div class="header-actions">
+                    <div class="date-range">
+                        <button class="btn btn-outline" onclick="setDateRange('week')">Week</button>
+                        <button class="btn btn-outline active" onclick="setDateRange('month')">Month</button>
+                        <button class="btn btn-outline" onclick="setDateRange('year')">Year</button>
+                    </div>
+                    <button class="btn btn-primary" onclick="exportReport()">
+                        <span class="material-icons">download</span>
+                        Export Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Financial Overview -->
+            <div class="analytics-grid">
+                <!-- Income vs Expenses Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h2>Income vs Expenses</h2>
+                        <div class="chart-legend">
+                            <span class="legend-item">
+                                <span class="legend-color income"></span>
+                                Income
+                            </span>
+                            <span class="legend-item">
+                                <span class="legend-color expense"></span>
+                                Expenses
+                            </span>
+                        </div>
+                    </div>
+                    <canvas id="incomeExpensesChart"></canvas>
+                </div>
+
+                <!-- Spending by Category -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h2>Spending by Category</h2>
+                    </div>
+                    <canvas id="categoryChart"></canvas>
+                </div>
+
+                <!-- Savings Trend -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h2>Savings Trend</h2>
+                    </div>
+                    <canvas id="savingsChart"></canvas>
+                </div>
+
+                <!-- Budget Performance -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h2>Budget Performance</h2>
+                    </div>
+                    <canvas id="budgetChart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="brand-wrapper">
+                        <img src="../assets/images/towerclub_logo.png" alt="TowerClub Logo" class="logo">
+                        <span class="brand-name">TowerClub</span>
+                    </div>
+                    <p class="brand-description">Smart financial management for a better future. Join thousands of users who are taking control of their finances with TowerClub.</p>
+                </div>
+                <div class="footer-quick-links">
+                    <div class="footer-links-section">
+                        <div class="footer-column">
+                            <h4>Company</h4>
+                            <ul class="footer-links">
+                                <li><a href="/about">About Us</a></li>
+                                <li><a href="/careers">Careers</a></li>
+                                <li><a href="/press">Press</a></li>
+                                <li><a href="/news">News</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Products</h4>
+                            <ul class="footer-links">
+                                <li><a href="/features">Features</a></li>
+                                <li><a href="/pricing">Pricing</a></li>
+                                <li><a href="/enterprise">Enterprise</a></li>
+                                <li><a href="/partners">Partners</a></li>
+                                <li><a href="/integrations">Integrations</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Resources</h4>
+                            <ul class="footer-links">
+                                <li><a href="/blog">Blog</a></li>
+                                <li><a href="/help">Help Center</a></li>
+                                <li><a href="/guides">Guides</a></li>
+                                <li><a href="/webinars">Webinars</a></li>
+                                <li><a href="/api-docs">API Documentation</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Legal</h4>
+                            <ul class="footer-links">
+                                <li><a href="/privacy">Privacy Policy</a></li>
+                                <li><a href="/terms">Terms of Service</a></li>
+                                <li><a href="/security">Security</a></li>
+                                <li><a href="/compliance">Compliance</a></li>
+                                <li><a href="/accessibility">Accessibility</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-social">
+                    <a href="https://facebook.com/towerclub" target="_blank" rel="noopener" aria-label="Facebook">
+                        <span class="material-icons">facebook</span>
+                    </a>
+                    <a href="https://twitter.com/towerclub" target="_blank" rel="noopener" aria-label="Twitter">
+                        <span class="material-icons">twitter</span>
+                    </a>
+                    <a href="https://linkedin.com/company/towerclub" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <span class="material-icons">linkedin</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="/scripts/analytics.js"></script>
+</body>
+</html>

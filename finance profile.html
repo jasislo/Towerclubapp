@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="profile.css">
+    <style>
+        :root {
+            --primary-color: #4A90E2;
+            --secondary-background: #F5F5F5;
+            --primary-text: #333333;
+            --success-color: #4CAF50;
+            --error-color: #FF3B30;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lexend', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 16px;
+        }
+
+        .profile-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            width: 140px;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-text);
+        }
+
+        .content {
+            padding: 24px;
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--primary-text);
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .user-name {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .edit-button,
+        .settings-button {
+            background: var(--secondary-background);
+            border: 1px solid var(--secondary-background);
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-button:hover,
+        .settings-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .edit-button .material-icons,
+        .settings-button .material-icons {
+            color: var(--primary-text);
+            font-size: 24px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--secondary-background);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon .material-icons {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        .stat-info h3 {
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-text);
+        }
+
+        .recent-activity {
+            background: var(--secondary-background);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .recent-activity h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-text);
+            margin-bottom: 16px;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .activity-item {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary-background);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .activity-icon .material-icons {
+            font-size: 20px;
+            color: var(--primary-color);
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-info h4 {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--primary-text);
+            margin-bottom: 4px;
+        }
+
+        .activity-time {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .activity-amount {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .activity-amount.positive {
+            color: var(--success-color);
+        }
+
+        .activity-amount.negative {
+            color: var(--error-color);
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-container">
+            <div class="header">
+                <div class="logo-container">
+                    <img src="../assets/images/towerclub_logo.png" alt="TowerClub Logo" class="logo">
+                    <span class="logo-text">TowerClub</span>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="profile-header">
+                    <div class="profile-info">
+                        <h1 class="title">Profile Dashboard</h1>
+                        <p class="subtitle">Welcome back, <span class="user-name">John Doe</span></p>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="edit-button">
+                            <span class="material-icons">edit</span>
+                        </button>
+                        <button class="settings-button">
+                            <span class="material-icons">settings</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="material-icons">account_balance_wallet</span>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Balance</h3>
+                            <p class="stat-value">$12,345.67</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="material-icons">trending_up</span>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Profit</h3>
+                            <p class="stat-value">$2,345.67</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="material-icons">swap_horiz</span>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Trades</h3>
+                            <p class="stat-value">156</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h2>Recent Activity</h2>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <span class="material-icons">arrow_upward</span>
+                            </div>
+                            <div class="activity-info">
+                                <h4>Deposit</h4>
+                                <p class="activity-time">2 hours ago</p>
+                            </div>
+                            <div class="activity-amount positive">
+                                +$1,000.00
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <span class="material-icons">arrow_downward</span>
+                            </div>
+                            <div class="activity-info">
+                                <h4>Withdrawal</h4>
+                                <p class="activity-time">5 hours ago</p>
+                            </div>
+                            <div class="activity-amount negative">
+                                -$500.00
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <span class="material-icons">swap_horiz</span>
+                            </div>
+                            <div class="activity-info">
+                                <h4>Trade</h4>
+                                <p class="activity-time">1 day ago</p>
+                            </div>
+                            <div class="activity-amount positive">
+                                +$250.00
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const profileContainer = document.querySelector('.profile-container');
+            const editButton = document.querySelector('.edit-button');
+            const settingsButton = document.querySelector('.settings-button');
+            const activityItems = document.querySelectorAll('.activity-item');
+
+            // Add fade-in animation
+            profileContainer.classList.add('fade-in');
+
+            // Handle edit button click
+            editButton.addEventListener('click', () => {
+                // Here you would typically open an edit profile modal or navigate to edit page
+                console.log('Edit profile clicked');
+            });
+
+            // Handle settings button click
+            settingsButton.addEventListener('click', () => {
+                // Here you would typically open settings modal or navigate to settings page
+                console.log('Settings clicked');
+            });
+
+            // Format currency values
+            const formatCurrency = (value) => {
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                }).format(value);
+            };
+
+            // Format time ago
+            const formatTimeAgo = (date) => {
+                const seconds = Math.floor((new Date() - date) / 1000);
+                
+                let interval = seconds / 31536000;
+                if (interval > 1) return Math.floor(interval) + ' years ago';
+                
+                interval = seconds / 2592000;
+                if (interval > 1) return Math.floor(interval) + ' months ago';
+                
+                interval = seconds / 86400;
+                if (interval > 1) return Math.floor(interval) + ' days ago';
+                
+                interval = seconds / 3600;
+                if (interval > 1) return Math.floor(interval) + ' hours ago';
+                
+                interval = seconds / 60;
+                if (interval > 1) return Math.floor(interval) + ' minutes ago';
+                
+                return Math.floor(seconds) + ' seconds ago';
+            };
+
+            // Update activity times
+            const updateActivityTimes = () => {
+                activityItems.forEach(item => {
+                    const timeElement = item.querySelector('.activity-time');
+                    const timestamp = new Date(timeElement.dataset.timestamp);
+                    timeElement.textContent = formatTimeAgo(timestamp);
+                });
+            };
+
+            // Initialize activity times
+            updateActivityTimes();
+
+            // Update activity times every minute
+            setInterval(updateActivityTimes, 60000);
+
+            // Add hover effect to activity items
+            activityItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    item.style.transform = 'translateX(5px)';
+                    item.style.transition = 'transform 0.3s ease';
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    item.style.transform = 'translateX(0)';
+                });
+            });
+
+            // Example of how to update stats (you would typically get this data from an API)
+            const updateStats = (data) => {
+                const totalBalance = document.querySelector('.stat-card:nth-child(1) .stat-value');
+                const totalProfit = document.querySelector('.stat-card:nth-child(2) .stat-value');
+                const totalTrades = document.querySelector('.stat-card:nth-child(3) .stat-value');
+
+                if (totalBalance) totalBalance.textContent = formatCurrency(data.totalBalance);
+                if (totalProfit) totalProfit.textContent = formatCurrency(data.totalProfit);
+                if (totalTrades) totalTrades.textContent = data.totalTrades;
+            };
+
+            // Example of how to update activities (you would typically get this data from an API)
+            const updateActivities = (activities) => {
+                const activityList = document.querySelector('.activity-list');
+                activityList.innerHTML = activities.map(activity => `
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <span class="material-icons">${activity.icon}</span>
+                        </div>
+                        <div class="activity-info">
+                            <h4>${activity.type}</h4>
+                            <p class="activity-time" data-timestamp="${activity.timestamp}">${formatTimeAgo(new Date(activity.timestamp))}</p>
+                        </div>
+                        <div class="activity-amount ${activity.amount >= 0 ? 'positive' : 'negative'}">
+                            ${formatCurrency(activity.amount)}
+                        </div>
+                    </div>
+                `).join('');
+            };
+        });
+    </script>
+</body>
+</html> 
